@@ -1,0 +1,53 @@
+TLDR:
+    1. Create the muscle_group class and exercise class
+    2. Create the skill class and progressions class
+    3. Create the user class and workout class
+    4. Create the warmup, cooldown, and stretching classes
+    5. Create the script logic for choosing exercises, rest time, inputting reps and sets, and storing data in a file or db
+    6. Create the GUI using tkinter
+    7. Create the databases for storing exercises and user data
+    8. Create a logo and choose a color palette and style for the app, and brainstorm other names
+    9. Implement the ML script for measuring rep quality
+    10. Explore VR implementation and third-person view features
+
+
+Main:
+    Script:
+        -Create a "list" that has all main muscle groups/domains and for each one a "list" of exercises and then same for each skills (levers, unilateral exercises, etc)
+        -Create the logic that allows you to choose the exercises, rest time and lets you input reps and sets -> store the data in a file or db
+        -Create a GUI (probably in tkinter for now and then explore alternatives)
+        Later:
+            -Create a ML script that returns a % of the quality of each rep
+
+    GUI:
+        -Create a GUI (probably in tkinter for now and then explore alternatives)
+
+    Database:
+        -Create a database to store the exercises data
+        -Create a database to store the user data
+
+    Style & App:
+        -Create a logo
+        -Brainstorm other names(?)
+        -Choose a color palette a style for the app
+
+    Code:
+        -Create a muscle_group class (name, muscle group)
+        -Create an exercise class (name, muscle, difficulty, etc)
+        -Create a skill class (name, description, etc)
+        -Create a progressions class (name, description, difficulty, etc)
+        -Create a user class (name, age, weight, height, etc)
+        -Create a (default | modular)workout class (name, description, difficulty, etc)
+        -Create a warmup class (name, description, time, muscle groups, etc)
+        -Create a cooldown class (name, description, time, muscle groups, etc)
+        -Create a stretching class (name, description, time, muscle groups, etc)
+        -Write a main function with other subfunctions that allow you to choose the exercises, rest time and lets you input reps and sets -> store the data in a file or db
+
+
+Future implementations:
+    
+    Way off:
+        -VR implementation: 
+            -VR explanations with demonstration of the exercises
+            -Third person view to see wheter you are doing the exercise correctly -> ML script to return a % of the quality of each rep
+            -VR Environment like mountains, beach and so on...
