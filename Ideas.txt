@@ -4,8 +4,8 @@ TLDR:
     3. Create the user class and workout class
     4. Create the warmup, cooldown, and stretching classes
     5. Create the script logic for choosing exercises, rest time, inputting reps and sets, and storing data in a file or db
-    6. Create the GUI using tkinter
-    7. Create the databases for storing exercises and user data
+    6. Create the GUI using tkinter -> explore alternatives
+    7. Create the databases for storing exercises and user data -> scale it to a server
     8. Create a logo and choose a color palette and style for the app, and brainstorm other names
 
 

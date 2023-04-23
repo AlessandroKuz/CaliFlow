@@ -153,3 +153,5 @@ cython_debug/
 scripts/main.py
 utils/input_func.py
 requirements.txt
+exercises.txt
+scripts/write_exercise_in_input.py

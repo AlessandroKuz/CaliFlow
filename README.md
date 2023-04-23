@@ -1,4 +1,4 @@
 # CaliFlow
- A Calisthenics app that is meant to provide value to the user and to make their lives easier.
+A Calisthenics app that is meant to provide value to the user and to make their life easier.
 
-Built using python 3.11.3
+Built using Python 3.11.3
