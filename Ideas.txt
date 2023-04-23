@@ -7,8 +7,6 @@ TLDR:
     6. Create the GUI using tkinter
     7. Create the databases for storing exercises and user data
     8. Create a logo and choose a color palette and style for the app, and brainstorm other names
-    9. Implement the ML script for measuring rep quality
-    10. Explore VR implementation and third-person view features
 
 
 Main:
