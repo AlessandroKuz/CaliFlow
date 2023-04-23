@@ -40,7 +40,6 @@ def main(write_to_file: bool=False):
         if exercise_num == 0:
             break
 
-        # questo deve solo partire se sopra hanno scelto l'esercizio
         # Asking for reps & sets
         if chosen_exercise: 
             sets: list = []
@@ -52,9 +51,6 @@ def main(write_to_file: bool=False):
                     elif 1 <= repetitions:
                         sets.append(repetitions)
                         print(sets)
-                        # if write_to_file:
-                        #     with open("exercises.txt", "a") as f:
-                        #         f.write(f"{chosen_exercise}")
                     else:
                         raise ValueError
                 except ValueError:
