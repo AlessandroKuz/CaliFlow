@@ -155,3 +155,5 @@ utils/input_func.py
 requirements.txt
 exercises.txt
 scripts/write_exercise_in_input.py
+data/muscle_groups.json
+data/exercises.json
