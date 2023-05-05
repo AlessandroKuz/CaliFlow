@@ -1,15 +1,34 @@
 import datetime
 
 
-# TODO: DEBUG - REMOVE None AS POSSIBILITY???
-def main(log_to_file: bool = True):
+APP_NAME: str = "CaliFlow"
+DEFAULT_FILE_PATH: str = "exercises.txt"
+
+
+def welcome(file_path: str | None = None) -> str | None:
+    if file_path:
+        try:
+            with open(file_path, "r") as f:
+                name: str = f.readline().strip()
+                if name:
+                    print(f"Hello {name}! Welcome back!")
+                    return name
+        except FileNotFoundError:
+            print("Invalid directory or file path provided.")
+        
+    print(f"Hi! Welcome to {APP_NAME}")
+    name: str = input("What's your name? ")
+    with open(DEFAULT_FILE_PATH, "w") as f:
+        f.write(f"{name}\n\n")
+    print(f"Your account has been setup, Hello {name}!")
+    
+
+def main(log_to_file: bool = False, file_path: str = "exercises.txt"):
     type_of_workout: str = workout_chooser()
-    # WARNING: INSTEAD OF THIS HOW ABOUT A QUIT() IF WORKOUT NOT CHOSEN
     if type_of_workout:
         routine: str | list[str] | None = get_routine(type_of_workout)
-        # INSTEAD OF THIS HOW ABOUT A QUIT() IF WORKOUT NOT CHOSEN
         if routine:
-            track_workout(routine, log_to_file)
+            track_workout(routine, log_to_file, file_path)
 
 
 def workout_chooser() -> str:
@@ -49,28 +68,24 @@ def get_routine(type: str) -> str | list[str] | None:
 
 
 def get_all_exercises() -> list[str]:
-    exercise_list: list[str] = [
-        "Push-up",
-        "Pull-up",
-        "Chin-up",
-        "Dip",
-        "Military-press",
-        "Curl",
-        "Plank",
-        "Bridge",
-        "Squat",
-        "Calf raise"]
-
-    return exercise_list
+    return ["Push-up",
+            "Pull-up",
+            "Chin-up",
+            "Dip",
+            "Military-press",
+            "Curl",
+            "Plank",
+            "Bridge",
+            "Squat",
+            "Calf raise"]
 
 
 def print_all_exercises(exercise_list: list[str]) -> None:
     print("Excercise list:")
     for index, exercise in enumerate(exercise_list, start=1):
         print(f"{index}. {exercise}")
+    
 
-
-# COULD MERGE THIS
 def choose_exercise_list(exercise_list: list[str]) -> list[str] | None:
     total_exercises_num: int = len(exercise_list)
     workout_list: list[str] = []
@@ -100,7 +115,6 @@ def choose_exercise_list(exercise_list: list[str]) -> list[str] | None:
     return workout_list
 
 
-# TO THIS -> NEXT CHECK UP
 def choose_exercise(exercise_list: list[str]) -> str | None:
     total_exercises_num: int = len(exercise_list)
     chosen_exercise: str = ""
@@ -131,11 +145,10 @@ def choose_exercise(exercise_list: list[str]) -> str | None:
         return chosen_exercise
 
 
-# COULD COMPACT???
 def track_workout(routine: str | list[str],
                   output_file: bool = False,
                   file_path: str = "exercises.txt"):
-    # List implementation
+
     if isinstance(routine, list):
         write_date(file_path)
         for exercise in routine:
@@ -146,7 +159,6 @@ def track_workout(routine: str | list[str],
                 with open (file_path, "a") as f:
                     f.write(f"{output}")
     
-    # Exercise implementation
     else:
         write_date(file_path)
         output = track_exercise(routine)
@@ -181,7 +193,6 @@ def track_exercise(exercise: str) -> str:
 
     time_difference = end_datetime - start_datetime
 
-    # Extract the time difference in hours, minutes, and seconds
     hours: int = time_difference.seconds // 3600
     minutes: int = (time_difference.seconds % 3600) // 60
     seconds: int = time_difference.seconds % 60
@@ -190,8 +201,6 @@ def track_exercise(exercise: str) -> str:
     end_time = end_datetime.strftime("%H:%M")
 
     time: str = f"Time: {start_time} -> {end_time},"
-    # set_elements: = "".join(sets)  # MUST BE CONVERTED IN STR BEFORE JOINING 
-    # exercise_sets: str = f"\n{exercise}:\n\t{len(sets)} Sets: {set_elements}."
     sets_done: str = f"{len(sets)} Sets: {sets}."
     exercise_sets: str = f"{exercise}:\n\t\t{sets_done}"
     hours_duration: str = f"{hours}h:" if hours != 0 else ""
@@ -199,7 +208,6 @@ def track_exercise(exercise: str) -> str:
     seconds_duration: str = f"{seconds}s"
     duration: str = hours_duration + minutes_duration + seconds_duration
 
-    # FIND A WAY TO FORMAT PROPERLY
     exercise_output: str = f"\t{time}\n" + \
                 f"\t{exercise_sets}\n\tIt took you {duration} to finish.\n\n"
     
@@ -213,4 +221,6 @@ def write_date(file_path: str):
 
 
 if __name__ == "__main__":
-    main()
+    file_path = DEFAULT_FILE_PATH
+    welcome(file_path)
+    main(log_to_file=True)
