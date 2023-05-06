@@ -24,14 +24,16 @@ def welcome(file_path: str | None = None) -> str | None:
     
 
 def main(log_to_file: bool = False, file_path: str = "exercises.txt"):
-    type_of_workout: str = workout_chooser()
-    if type_of_workout:
-        routine: str | list[str] | None = get_routine(type_of_workout)
+    workout_type: str | None = workout_chooser()
+    if workout_type:
+        exercise_list: list[str] = get_all_exercises()
+        print_all_exercises(exercise_list)
+        routine: str | list[str] | None = choosing_routine(exercise_list, workout_type)        
         if routine:
             track_workout(routine, log_to_file, file_path)
 
 
-def workout_chooser() -> str:
+def workout_chooser() -> str | None:
     workout_types: tuple[str, str] = ("complex workout", "simple workout")
     choosing_workout_type: bool = True
     chosen_workout: str = ""
@@ -45,6 +47,10 @@ def workout_chooser() -> str:
             if workout_type in [1, len(workout_types)]:
                 chosen_workout = workout_types[workout_type - 1]
                 choosing_workout_type = False
+            elif workout_type < 1:
+                quit_confirmation: str = input("Do you really wanna quit (y/n)? ").lower()
+                if quit_confirmation == "y" or quit_confirmation == "yes":
+                    return None
             else:
                 raise ValueError
         except ValueError:
@@ -54,56 +60,56 @@ def workout_chooser() -> str:
     return chosen_workout
 
 
-def get_routine(type: str) -> str | list[str] | None:
-    routine: str | list[str] | None = ""
-    exercise_list: list[str] = get_all_exercises()
-    print_all_exercises(exercise_list)
-
-    if type == "complex workout":
-        routine = choose_exercise_list(exercise_list)
-    elif type == "simple workout":
-        routine = choose_exercise(exercise_list)
-    
-    return routine
-
-
 def get_all_exercises() -> list[str]:
-    return ["Push-up",
-            "Pull-up",
-            "Chin-up",
-            "Dip",
-            "Military-press",
-            "Curl",
+    return ["Push-ups",
+            "Pull-ups",
+            "Chin-ups",
+            "Dips",
+            "Military-presses",
+            "Curls",
             "Plank",
-            "Bridge",
-            "Squat",
-            "Calf raise"]
+            "Bridges",
+            "Squats",
+            "Calf raises"]
 
 
 def print_all_exercises(exercise_list: list[str]) -> None:
     print("Excercise list:")
     for index, exercise in enumerate(exercise_list, start=1):
         print(f"{index}. {exercise}")
+    print()
     
 
-def choose_exercise_list(exercise_list: list[str]) -> list[str] | None:
-    total_exercises_num: int = len(exercise_list)
-    workout_list: list[str] = []
-    choosing_exercises: bool = True
-    quit_value: int = 0
+def print_exercise_guide(quit_value: int):
+    print("Choose a list of exercises you would like to perform",
+          f"when done input {quit_value}.\n")
+
+
+def choosing_routine(exercise_list: list[str],
+             workout_type: str) -> list[str] | str | None:
     
-    print("Choose a list of exercises you would like to do",
-          f"when done input {quit_value}.")
+    quit_value: int = 0
+    total_exercises_num: int = len(exercise_list)
+    choosing_exercises: bool = True
+    workout_list: list[str] = []
+    workout_types: tuple[str, str] = ("complex workout", "simple workout")
+    input_message = "Which exercise would you like to add?" \
+                    if workout_type == workout_types[0] \
+                    else "Which exercise would you like to perform?"
+    
+    print_exercise_guide(quit_value)
 
     while choosing_exercises:
         try:
-            exercise_num = int(input("Which exercise would you like to do? "))
+            exercise_num = int(input(f"{input_message} "))
             if exercise_num == quit_value:
                 choosing_exercises = False
             elif 1 <= exercise_num <= total_exercises_num:
                 chosen_exercise: str = exercise_list[exercise_num - 1]
                 print(f"You added {chosen_exercise} to your workout.")
                 workout_list.append(chosen_exercise)
+                if workout_type == workout_types[1]:
+                    choosing_exercises = False
             else:
                 raise ValueError
 
@@ -112,37 +118,9 @@ def choose_exercise_list(exercise_list: list[str]) -> list[str] | None:
                 f"1 and {total_exercises_num} to choose the exercise;\n",
                 f"press {quit_value} to exit input.")
     
-    return workout_list
-
-
-def choose_exercise(exercise_list: list[str]) -> str | None:
-    total_exercises_num: int = len(exercise_list)
-    chosen_exercise: str = ""
-    choosing_exercise: bool = True
-    quit_value: int = 0
-    
-    print("Choose an exercise you would like to do",
-          f"or input {quit_value} to exit.")
-
-    while choosing_exercise:
-        try:
-            exercise_num = int(input("Which exercise would you like to do? "))
-            if exercise_num == quit_value:
-                choosing_exercise = False
-            elif 1 <= exercise_num <= total_exercises_num:
-                chosen_exercise: str = exercise_list[exercise_num - 1]
-                print(f"You choose {chosen_exercise}.")
-                choosing_exercise = False
-            else:
-                raise ValueError
-
-        except ValueError:
-            print("Invalid input, type in a number between",
-                f"1 and {total_exercises_num} to choose the exercise;\n",
-                f"press {quit_value} to exit input.")
-    
-    if not choosing_exercise:
-        return chosen_exercise
+    if workout_list:
+        return workout_list if workout_type == workout_types[0] else workout_list[0]
+    return None
 
 
 def track_workout(routine: str | list[str],
