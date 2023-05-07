@@ -16,11 +16,15 @@ Built using Python 3.11.3
 
 #### Installation
 
-To use CaliFlow, you need to have Python installed on your machine. Once you have Python installed, follow these steps to install CaliFlow:
+To use CaliFlow, you need to have Python installed on your machine. 
+If you don't have it already installed you can download it from [Python.org](https://www.python.org/downloads/).
+Once you have Python installed, follow these steps to install CaliFlow:
 
 1. Clone the repository: `git clone https://github.com/your_username/CaliFlow.git`
 2. Change the directory to the project folder: `cd CaliFlow`
-3. Install the dependencies: `pip install -r requirements.txt`
+3. There are no additional dependencies to install.
+
+That's it! You can now use CaliFlow.
 
 #### Running the app
 
@@ -34,4 +38,4 @@ After you have created your workout plan, you can start tracking your workout. T
 
 ### License
 
-CaliFlow is licensed under the MIT license. See the [LICENSE](https://github.com/your_username/CaliFlow/blob/main/LICENSE) file for more details.
+CaliFlow is licensed under the MIT license. See the [LICENSE](https://github.com/AlessandroKuz/CaliFlow/blob/main/LICENSE) file for more details.
