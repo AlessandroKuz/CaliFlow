@@ -126,9 +126,10 @@ def choosing_routine(exercise_list: list[str],
 def track_workout(routine: str | list[str],
                   output_file: bool = False,
                   file_path: str = "exercises.txt"):
+    date = datetime.datetime.today().strftime("%d/%m/%Y")
 
     if isinstance(routine, list):
-        write_date(file_path)
+        write_date(file_path, date)
         for exercise in routine:
             print(f"You are now tracking {exercise}:")
             output = track_exercise(exercise)
@@ -138,7 +139,7 @@ def track_workout(routine: str | list[str],
                     f.write(f"{output}")
     
     else:
-        write_date(file_path)
+        write_date(file_path, date)
         output = track_exercise(routine)
         print(output)
         if output_file:
@@ -162,7 +163,8 @@ def track_exercise(exercise: str) -> str:
                 tracking_reps = False
             else:
                 sets.append(repetitions)
-                print(sets)
+                str_sets: str = ", ".join([str(set) for set in sets])
+                print(f"Sets: {str_sets}")
 
         except ValueError:
             print("Invalid input, type in a valid number.")
@@ -178,8 +180,10 @@ def track_exercise(exercise: str) -> str:
     start_time = start_datetime.strftime("%H:%M")
     end_time = end_datetime.strftime("%H:%M")
 
+    str_sets: str = ", ".join([str(set) for set in sets])
+
     time: str = f"Time: {start_time} -> {end_time},"
-    sets_done: str = f"{len(sets)} Sets: {sets}."
+    sets_done: str = f"{len(sets)} Sets: {str_sets}."
     exercise_sets: str = f"{exercise}:\n\t\t{sets_done}"
     hours_duration: str = f"{hours}h:" if hours != 0 else ""
     minutes_duration: str = f"{minutes}m:" if minutes != 0 else ""
@@ -192,8 +196,7 @@ def track_exercise(exercise: str) -> str:
     return exercise_output
 
 
-def write_date(file_path: str):
-    date = datetime.datetime.today().strftime("%d/%m/%Y")
+def write_date(file_path: str, date: str):
     with open (file_path, "a") as f:
             f.write(f"Date: {date}\n")
 
