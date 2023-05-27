@@ -1,8 +1,46 @@
 import datetime
+import time
+import os
 
 
 APP_NAME: str = "CaliFlow"
 DEFAULT_FILE_PATH: str = "exercises.txt"
+WORKOUT_TYPES: tuple[str, str] = ("Complex workout", "Simple workout")
+USER_TYPE: tuple[str, str] = ("New user", "Existing user")
+
+
+
+"""
+IDEA:
+-Setup:
+    Get username, optional(age, height, weight)
+-App:
+    Get type of workout
+    --> get exercise(s)
+    --> get reps and sets (number or duration)
+    --> write to file
+"""
+
+"""
+TODO: CREATE A PROPER APP PATH:
+\CaliFlow
+    \Data
+        -Username   OR  Setting.ini ?
+        -Workouts
+    \Scripts
+        -CaliFlow.py
+        -Log.log    ???
+
+IF FILES NOT SET UP THEN RUN SCRIPT THAT CREATES ALL NECESSARY DIRS AND FILES
+"""
+
+# TODO: Reps don't make any sense for time exercises (ex: Planks)!!!
+# Can't Create directory with file write - only file
+# Check, if new guy 1 type of execution, if already member other execution
+
+def setup():
+    # os.mkdir("")
+    ...
 
 
 def welcome(file_path: str | None = None) -> str | None:
@@ -10,21 +48,31 @@ def welcome(file_path: str | None = None) -> str | None:
         try:
             with open(file_path, "r") as f:
                 name: str = f.readline().strip()
-                if name:
-                    print(f"Hello {name}! Welcome back!")
-                    return name
+            if name:
+                print(f"Hello {name}! Welcome back!")
+                return USER_TYPE[1]
+            
         except FileNotFoundError:
             print("Invalid directory or file path provided.")
+
+    else:
+        print(f"Hi! Welcome to {APP_NAME}")
+        name: str = input("What's your name? ")
         
-    print(f"Hi! Welcome to {APP_NAME}")
-    name: str = input("What's your name? ")
-    with open(DEFAULT_FILE_PATH, "w") as f:
-        f.write(f"{name}\n\n")
-    print(f"Your account has been setup, Hello {name}!")
+        if file_path:
+            with open(file_path, "w") as f:
+                f.write(f"{name}\n\n")
+        else:
+            with open(DEFAULT_FILE_PATH, "w") as f:
+                f.write(f"{name}\n\n")
+        
+        print(f"Your account has been setup. Hello {name}!")
+        
+        return USER_TYPE[0]
     
 
-def main(log_to_file: bool = False, file_path: str = "exercises.txt"):
-    workout_type: str | None = workout_chooser()
+def main(user_type: str, log_to_file: bool = False, file_path: str = "exercises.txt"):
+    workout_type: str | None = workout_chooser(user_type)
     if workout_type:
         exercise_list: list[str] = get_all_exercises()
         print_all_exercises(exercise_list)
@@ -33,19 +81,23 @@ def main(log_to_file: bool = False, file_path: str = "exercises.txt"):
             track_workout(routine, log_to_file, file_path)
 
 
-def workout_chooser() -> str | None:
-    workout_types: tuple[str, str] = ("complex workout", "simple workout")
+def workout_chooser(user_type: str) -> str | None:
     choosing_workout_type: bool = True
     chosen_workout: str = ""
 
-    print("You can either choose all your exercises togheter", 
-          "or one at a time.", end=" ")
+    if user_type == USER_TYPE[0]:
+        print("TUTORIAL: \nYou can either choose all your exercises togheter", 
+              "or one at a time.", end=" ")
+        input_text: str = """Which type of workout would you like to do today?
+        (type in 1 to choose multiple exercises all at once | type in 2 to choose only a single exercise): """
+    else:
+        input_text = "What type of workout would you like to do today? (1 or 2): "
 
     while choosing_workout_type:
         try:
-            workout_type = int(input("What would you like to do? (1 or 2): "))
-            if workout_type in [1, len(workout_types)]:
-                chosen_workout = workout_types[workout_type - 1]
+            workout_type = int(input(input_text))
+            if workout_type in [1, len(WORKOUT_TYPES)]:
+                chosen_workout = WORKOUT_TYPES[workout_type - 1]
                 choosing_workout_type = False
             elif workout_type < 1:
                 quit_confirmation: str = input("Do you really wanna quit (y/n)? ").lower()
@@ -55,7 +107,7 @@ def workout_chooser() -> str | None:
                 raise ValueError
         except ValueError:
             print("The value must a number between",
-                  f"1 and {len(workout_types)}")
+                  f"1 and {len(WORKOUT_TYPES)}")
     
     return chosen_workout
 
@@ -92,9 +144,8 @@ def choosing_routine(exercise_list: list[str],
     total_exercises_num: int = len(exercise_list)
     choosing_exercises: bool = True
     workout_list: list[str] = []
-    workout_types: tuple[str, str] = ("complex workout", "simple workout")
     input_message = "Which exercise would you like to add?" \
-                    if workout_type == workout_types[0] \
+                    if workout_type == WORKOUT_TYPES[0] \
                     else "Which exercise would you like to perform?"
     
     print_exercise_guide(quit_value)
@@ -108,7 +159,7 @@ def choosing_routine(exercise_list: list[str],
                 chosen_exercise: str = exercise_list[exercise_num - 1]
                 print(f"You added {chosen_exercise} to your workout.")
                 workout_list.append(chosen_exercise)
-                if workout_type == workout_types[1]:
+                if workout_type == WORKOUT_TYPES[1]:
                     choosing_exercises = False
             else:
                 raise ValueError
@@ -119,7 +170,7 @@ def choosing_routine(exercise_list: list[str],
                 f"press {quit_value} to exit input.")
     
     if workout_list:
-        return workout_list if workout_type == workout_types[0] else workout_list[0]
+        return workout_list if workout_type == WORKOUT_TYPES[0] else workout_list[0]
     return None
 
 
@@ -202,6 +253,9 @@ def write_date(file_path: str, date: str):
 
 
 if __name__ == "__main__":
-    file_path = DEFAULT_FILE_PATH
-    welcome(file_path)
-    main(log_to_file=True)
+    file_path: str = r"C:\Users\AlessandroKuz\Desktop\exercises.txt"
+    # file_path = DEFAULT_FILE_PATH
+    # user = welcome(file_path)
+    user = welcome()
+    time.sleep(1)
+    main(user_type = user, log_to_file=True)
