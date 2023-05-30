@@ -2,7 +2,7 @@ import datetime
 import time
 import os
 
-from settings import *
+from utils.settings import DEFAULT_FILE_PATH, WORKOUT_TYPES, USER_TYPE, APP_NAME
 
 
 """
@@ -248,7 +248,7 @@ def write_date(file_path: str, date: str):
 
 
 if __name__ == "__main__":
-    file_path: str = r"C:\Users\AlessandroKuz\Desktop\exercises.txt"
+    file_path: str = DEFAULT_FILE_PATH
     # file_path = DEFAULT_FILE_PATH
     # user = welcome(file_path)
     user = welcome()
