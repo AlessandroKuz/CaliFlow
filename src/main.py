@@ -1,9 +1,8 @@
 import datetime
 import time
-import os
 
 from utils.settings import DEFAULT_FILE_PATH, WORKOUT_TYPES, USER_TYPE, APP_NAME
-
+from utils.name import get_name, set_name
 
 """
 IDEA:
@@ -38,31 +37,17 @@ def setup():
     ...
 
 
-def welcome(file_path: str | None = None) -> str | None:
-    if file_path:
-        try:
-            with open(file_path, "r") as f:
-                name: str = f.readline().strip()
-            if name:
-                print(f"Hello {name}! Welcome back!")
-                return USER_TYPE[1]
-            
-        except FileNotFoundError:
-            print("Invalid directory or file path provided.")
-
+def welcome() -> str | None:
+    name: str = get_name()
+    if name:
+        print(f"Welcome back {name}!")
+        return USER_TYPE[1]
     else:
-        print(f"Hi! Welcome to {APP_NAME}")
-        name: str = input("What's your name? ")
-        
-        if file_path:
-            with open(file_path, "w") as f:
-                f.write(f"{name}\n\n")
-        else:
-            with open(DEFAULT_FILE_PATH, "w") as f:
-                f.write(f"{name}\n\n")
+        print(f"Welcome to {APP_NAME}!")
+        name: str = input("What's your name? ").capitalize()
+        set_name(name)
         
         print(f"Your account has been setup. Hello {name}!")
-        
         return USER_TYPE[0]
     
 
@@ -249,8 +234,6 @@ def write_date(file_path: str, date: str):
 
 if __name__ == "__main__":
     file_path: str = DEFAULT_FILE_PATH
-    # file_path = DEFAULT_FILE_PATH
-    # user = welcome(file_path)
     user = welcome()
     time.sleep(1)
     main(user_type = user, log_to_file=True)
