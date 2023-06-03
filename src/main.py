@@ -1,7 +1,8 @@
 import datetime
 import time
 
-from utils.settings import DEFAULT_FILE_PATH, WORKOUT_TYPES, USER_TYPE, APP_NAME
+from utils.settings import PERSONAL_DATA_FILE_PATH, WORKOUT_TYPES, USER_TYPE, APP_NAME
+from utils.setup import check_for_necessary_files, create_missing_files
 from utils.name import get_name, set_name
 
 """
@@ -32,33 +33,40 @@ IF FILES NOT SET UP THEN RUN SCRIPT THAT CREATES ALL NECESSARY DIRS AND FILES
 # Can't Create directory with file write - only file
 # Check, if new guy 1 type of execution, if already member other execution
 
-def setup():
-    # os.mkdir("")
-    ...
+def files_setup():
+    """Checks whether the necessary files and directories are present.
+    If not, creates them."""
+    necessary_files: dict[str, bool] = check_for_necessary_files()
+    create_missing_files(necessary_files)
 
 
-def welcome() -> str | None:
-    name: str = get_name()
-    if name:
-        print(f"Welcome back {name}!")
-        return USER_TYPE[1]
-    else:
+def user_greeting() -> str:
+    """Greet the user, ask for their name if not registered.
+    Return the user type (new or existing)."""
+    name: str = get_name(PERSONAL_DATA_FILE_PATH)
+    if not name:
         print(f"Welcome to {APP_NAME}!")
         name: str = input("What's your name? ").capitalize()
-        set_name(name)
-        
+        set_name(name, PERSONAL_DATA_FILE_PATH)
         print(f"Your account has been setup. Hello {name}!")
-        return USER_TYPE[0]
+        # create a wrapper function - if new user run set up file
+        files_setup()
+        return USER_TYPE[0]  # if new user run set up file
+    
+    print(f"Welcome back {name}!")
+    # create a wrapper function - if existing user run app file
+    # check for files integrity??? - or run the app then check for files integrity
+    return USER_TYPE[1]  
     
 
-def main(user_type: str, log_to_file: bool = False, file_path: str = "exercises.txt"):
+def main(user_type: str) -> None:
     workout_type: str | None = workout_chooser(user_type)
     if workout_type:
         exercise_list: list[str] = get_all_exercises()
         print_all_exercises(exercise_list)
         routine: str | list[str] | None = choosing_routine(exercise_list, workout_type)        
         if routine:
-            track_workout(routine, log_to_file, file_path)
+            track_workout(routine)
 
 
 def workout_chooser(user_type: str) -> str | None:
@@ -154,28 +162,24 @@ def choosing_routine(exercise_list: list[str],
     return None
 
 
-def track_workout(routine: str | list[str],
-                  output_file: bool = False,
-                  file_path: str = "exercises.txt"):
+def track_workout(routine: str | list[str]):
     date = datetime.datetime.today().strftime("%d/%m/%Y")
 
     if isinstance(routine, list):
-        write_date(file_path, date)
+        write_date(date)
         for exercise in routine:
             print(f"You are now tracking {exercise}:")
             output = track_exercise(exercise)
             print(output)
-            if output_file:
-                with open (file_path, "a") as f:
-                    f.write(f"{output}")
+            with open (PERSONAL_DATA_FILE_PATH, "a") as f:
+                f.write(f"{output}")
     
     else:
-        write_date(file_path, date)
+        write_date(date)
         output = track_exercise(routine)
         print(output)
-        if output_file:
-            with open (file_path, "a") as f:
-                f.write(f"{output}")
+        with open (PERSONAL_DATA_FILE_PATH, "a") as f:
+            f.write(f"{output}")
 
 
 def track_exercise(exercise: str) -> str:
@@ -227,13 +231,12 @@ def track_exercise(exercise: str) -> str:
     return exercise_output
 
 
-def write_date(file_path: str, date: str):
-    with open (file_path, "a") as f:
+def write_date(date: str):
+    with open (PERSONAL_DATA_FILE_PATH, "a") as f:
             f.write(f"Date: {date}\n")
 
 
 if __name__ == "__main__":
-    file_path: str = DEFAULT_FILE_PATH
-    user = welcome()
+    user = user_greeting()
     time.sleep(1)
-    main(user_type = user, log_to_file=True)
+    main(user_type = user)

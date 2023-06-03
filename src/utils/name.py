@@ -1,9 +1,7 @@
 import json
 
-from utils.settings import DEFAULT_FILE_PATH
 
-
-def get_name(file_path: str = DEFAULT_FILE_PATH) -> str | None:
+def get_name(file_path: str) -> str | None:
     """Get the name of the user from the file path provided, from a json file."""
     try:
         with open(file_path, "r") as f:
@@ -15,7 +13,7 @@ def get_name(file_path: str = DEFAULT_FILE_PATH) -> str | None:
             json.dump({"name": ""}, f)
         return None
 
-def set_name(name: str, file_path: str = DEFAULT_FILE_PATH) -> None:
+def set_name(name: str, file_path: str) -> None:
     """Set the name of the user in the file path provided, in a json file."""
     try:
         with open(file_path, "w") as f:
