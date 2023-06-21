@@ -5,18 +5,22 @@ from utils.settings import DATA_FOLDER_PATH, PERSONAL_DATA_FILE_PATH, WORKOUT_DA
 def check_for_necessary_files() -> dict[str, bool]:
     """Checks whether the necessary files and directories are present."""
     necessary_files: dict[str, bool] = {
-        "data_folder": True,  # Folder containing all data files
-        "data_file": True,  # File containing user's data
-        "workout_data_file": True,  # File containing all tracked workouts
+        "data_folder": False,  # Folder containing all data files
+        "data_file": False,  # File containing user's data
+        "workout_data_file": False,  # File containing all tracked workouts
     }
-    if not os.path.isdir(DATA_FOLDER_PATH):
-        necessary_files["data_folder"] = False
+    # check if the data folder exists
+    if os.path.exists(DATA_FOLDER_PATH) and \
+       os.path.isdir(DATA_FOLDER_PATH):
+        necessary_files["data_folder"] = True
     
-    if not os.path.isfile(PERSONAL_DATA_FILE_PATH):
-        necessary_files["data_file"] = False
+    if os.path.exists(PERSONAL_DATA_FILE_PATH) and \
+       os.path.isfile(PERSONAL_DATA_FILE_PATH):
+        necessary_files["data_file"] = True
 
-    if not os.path.isfile(WORKOUT_DATA_FILE_PATH):
-        necessary_files["workout_data_file"] = False
+    if os.path.exists(WORKOUT_DATA_FILE_PATH) and \
+       os.path.isfile(WORKOUT_DATA_FILE_PATH):
+        necessary_files["workout_data_file"] = True
 
     return necessary_files
 

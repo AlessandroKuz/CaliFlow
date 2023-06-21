@@ -2,9 +2,7 @@ import datetime
 import time
 
 from utils.settings import PERSONAL_DATA_FILE_PATH, WORKOUT_TYPES, USER_TYPE, APP_NAME
-from utils.setup import check_for_necessary_files, create_missing_files
-from utils.name import get_name, set_name
-
+from user import user_greeting, files_setup
 """
 IDEA:
 -Setup:
@@ -33,31 +31,6 @@ IF FILES NOT SET UP THEN RUN SCRIPT THAT CREATES ALL NECESSARY DIRS AND FILES
 # Can't Create directory with file write - only file
 # Check, if new guy 1 type of execution, if already member other execution
 
-def files_setup():
-    """Checks whether the necessary files and directories are present.
-    If not, creates them."""
-    necessary_files: dict[str, bool] = check_for_necessary_files()
-    create_missing_files(necessary_files)
-
-
-def user_greeting() -> str:
-    """Greet the user, ask for their name if not registered.
-    Return the user type (new or existing)."""
-    name: str = get_name(PERSONAL_DATA_FILE_PATH)
-    if not name:
-        print(f"Welcome to {APP_NAME}!")
-        name: str = input("What's your name? ").capitalize()
-        set_name(name, PERSONAL_DATA_FILE_PATH)
-        print(f"Your account has been setup. Hello {name}!")
-        # create a wrapper function - if new user run set up file
-        files_setup()
-        return USER_TYPE[0]  # if new user run set up file
-    
-    print(f"Welcome back {name}!")
-    # create a wrapper function - if existing user run app file
-    # check for files integrity??? - or run the app then check for files integrity
-    return USER_TYPE[1]  
-    
 
 def main(user_type: str) -> None:
     workout_type: str | None = workout_chooser(user_type)
@@ -237,6 +210,7 @@ def write_date(date: str):
 
 
 if __name__ == "__main__":
-    user = user_greeting()
+    files_setup()
+    user_type = user_greeting()
     time.sleep(1)
-    main(user_type = user)
+    main(user_type=user_type)
