@@ -8,7 +8,7 @@ def get_name(file_path: str) -> str | None:
             name: str = json.load(f)["name"]
         return name
 
-    except FileNotFoundError:
+    except KeyError:
         with open(file_path, "w") as f:
             json.dump({"name": ""}, f)
         return None
@@ -20,4 +20,6 @@ def set_name(name: str, file_path: str) -> None:
             json.dump({"name": name}, f)
 
     except FileNotFoundError:
-        print("Invalid directory or file path provided.")
+        print("Invalid or non existant directory or file path provided.")
+    except KeyError:
+        print("Invalid json file provided.")

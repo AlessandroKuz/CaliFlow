@@ -151,8 +151,5 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
 exercises.txt
-data/muscle_groups.json
-data/exercises.json
+data/
 src/test.py
-src/user.py
-data/personal_data.json
