@@ -202,7 +202,7 @@ def track_exercise(exercise: str) -> str:
 
 def write_date(date: str):
     with open (WORKOUT_DATA_FILE_PATH, "a") as f:
-        f.write(f"{date}\n")
+        f.write(f"Date: {date}\n")
 
 
 if __name__ == "__main__":
