@@ -1,4 +1,6 @@
 TLDR:
+    + Add the possibility to add your own excercise
+    ++ Add rest time between exercises
     1. Create the Exercises+ and children classes (muscle groups, exercise | skill, progressions)
     2. Create the user class and workout class
     3. Create the warmup, cooldown, and stretching classes
