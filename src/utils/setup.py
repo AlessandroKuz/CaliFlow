@@ -36,4 +36,4 @@ def create_missing_files(necessary_files: dict[str, bool]) -> None:
 
     if necessary_files["workout_data_file"] == False:
         with open(WORKOUT_DATA_FILE_PATH, "w") as f:
-            f.write("{}")
+            f.write("")
