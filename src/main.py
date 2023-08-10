@@ -29,21 +29,21 @@ IF FILES NOT SET UP THEN RUN SCRIPT THAT CREATES ALL NECESSARY DIRS AND FILES
 """
 
 # TODO: Reps don't make any sense for time exercises (ex: Planks)!!!
-# Can't Create directory with file write - only file
-# Check, if new guy 1 type of execution, if already member other execution
+            # Can't Create directory with file write - only file
+            # Check, if new guy 1 type of execution, if already member other execution
 
 
 def main(user_type: str) -> None:
-    workout_type: str | None = workout_chooser(user_type)
+    workout_type: str = workout_chooser(user_type)
     if workout_type:
         exercise_list: list[str] = get_all_exercises()
         print_all_exercises(exercise_list)
-        routine: str | list[str] | None = choosing_routine(exercise_list, workout_type)        
+        routine: list[str] = choosing_routine(exercise_list, workout_type)        
         if routine:
             track_workout(routine)
 
 
-def workout_chooser(user_type: str) -> str | None:
+def workout_chooser(user_type: str) -> str:
     choosing_workout_type: bool = True
     chosen_workout: str = ""
 
@@ -63,8 +63,9 @@ def workout_chooser(user_type: str) -> str | None:
                 choosing_workout_type = False
             elif workout_type < 1:
                 quit_confirmation: str = input("Do you really wanna quit (y/n)? ").lower()
-                if quit_confirmation == "y" or quit_confirmation == "yes":
-                    return None
+                if quit_confirmation in ["y", "yes", "0"]:
+                    print("Bye")
+                    exit()
             else:
                 raise ValueError
         except ValueError:
@@ -100,7 +101,7 @@ def print_exercise_guide(quit_value: int):
 
 
 def choosing_routine(exercise_list: list[str],
-             workout_type: str) -> list[str] | str | None:
+             workout_type: str) -> list[str]:
     
     quit_value: int = 0
     total_exercises_num: int = len(exercise_list)
@@ -119,7 +120,7 @@ def choosing_routine(exercise_list: list[str],
                 choosing_exercises = False
             elif 1 <= exercise_num <= total_exercises_num:
                 chosen_exercise: str = exercise_list[exercise_num - 1]
-                print(f"You added {chosen_exercise} to your workout.")
+                print(f"You added {chosen_exercise} to your workout.\n")
                 workout_list.append(chosen_exercise)
                 if workout_type == WORKOUT_TYPES[1]:
                     choosing_exercises = False
@@ -129,20 +130,20 @@ def choosing_routine(exercise_list: list[str],
         except ValueError:
             print("Invalid input, type in a number between",
                 f"1 and {total_exercises_num} to choose the exercise;\n",
-                f"press {quit_value} to exit input.")
+                f"press {quit_value} to exit input.\n")
     
-    if workout_list:
-        return workout_list if workout_type == WORKOUT_TYPES[0] else workout_list[0]
-    return None
+    if not workout_list:
+        print("Bye!")
+        exit()
+
+    return workout_list
 
 
-def track_workout(routine: str | list[str]):
+def track_workout(routine: list[str]):
     date = datetime.datetime.today().strftime("%d/%m/%Y")
 
-    if not isinstance(routine, list):
-        routine = [routine]
-
     write_date(date)
+    print("-"*100)
     for exercise in routine:
         print(f"You are now tracking {exercise}:")
         output = track_exercise(exercise)
@@ -168,7 +169,7 @@ def track_exercise(exercise: str) -> str:
             else:
                 sets.append(repetitions)
                 str_sets: str = ", ".join([str(set) for set in sets])
-                print(f"Sets: {str_sets}")
+                print(f"Sets: {str_sets}\n")
 
         except ValueError:
             print("Invalid input, type in a valid number.")
@@ -206,6 +207,7 @@ def write_date(date: str):
 
 
 if __name__ == "__main__":
+    print(f"{APP_NAME}")
     files_setup()
     user_type = user_greeting()
     time.sleep(1)
