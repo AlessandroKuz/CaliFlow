@@ -1,8 +1,9 @@
 import datetime
 import time
 
-from utils.settings import PERSONAL_DATA_FILE_PATH, WORKOUT_TYPES, USER_TYPE, APP_NAME
+from utils.settings import PERSONAL_DATA_FILE_PATH, WORKOUT_TYPES, USER_TYPE, APP_NAME, WORKOUT_DATA_FILE_PATH
 from user import user_greeting, files_setup
+
 """
 IDEA:
 -Setup:
@@ -138,22 +139,17 @@ def choosing_routine(exercise_list: list[str],
 def track_workout(routine: str | list[str]):
     date = datetime.datetime.today().strftime("%d/%m/%Y")
 
-    if isinstance(routine, list):
-        write_date(date)
-        for exercise in routine:
-            print(f"You are now tracking {exercise}:")
-            output = track_exercise(exercise)
-            print(output)
-            with open (PERSONAL_DATA_FILE_PATH, "a") as f:
-                f.write(f"{output}")
-    
-    else:
-        write_date(date)
-        output = track_exercise(routine)
-        print(output)
-        with open (PERSONAL_DATA_FILE_PATH, "a") as f:
-            f.write(f"{output}")
+    if not isinstance(routine, list):
+        routine = [routine]
 
+    write_date(date)
+    for exercise in routine:
+        print(f"You are now tracking {exercise}:")
+        output = track_exercise(exercise)
+        print(output)
+        with open (WORKOUT_DATA_FILE_PATH, "a") as f:
+            f.write(f"{output}")
+    
 
 def track_exercise(exercise: str) -> str:
     start_datetime = datetime.datetime.now()
@@ -205,8 +201,8 @@ def track_exercise(exercise: str) -> str:
 
 
 def write_date(date: str):
-    with open (PERSONAL_DATA_FILE_PATH, "a") as f:
-            f.write(f"Date: {date}\n")
+    with open (WORKOUT_DATA_FILE_PATH, "a") as f:
+        f.write(f"{date}\n")
 
 
 if __name__ == "__main__":
