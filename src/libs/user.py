@@ -17,14 +17,14 @@ def user_greeting() -> str:
     name: str = get_name(PERSONAL_DATA_FILE_PATH)
     if not name:
         print(f"Welcome to {APP_NAME}!")
-        name: str = input("What's your name? ").title()
+        name: str = input("What's your name? ")
         set_name(name, PERSONAL_DATA_FILE_PATH)
         print(f"Your account has been setup. Hello {name}!")
         # create a wrapper function - if new user run set up file
         files_setup()
         return USER_TYPE[0]  # if new user run set up file
     
-    print(f"Welcome back {name}!")
+    print(f"Welcome back {name}!", end="\n\n")
     # create a wrapper function - if existing user run app file
     # check for files integrity??? - or run the app then check for files integrity
     return USER_TYPE[1]  

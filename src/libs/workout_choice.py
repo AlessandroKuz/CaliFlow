@@ -11,7 +11,7 @@ def workout_chooser(user_type: str) -> str:
         input_text: str = """Which type of workout would you like to do today?
         (type in 1 to choose multiple exercises all at once | type in 2 to choose only a single exercise): """
     else:
-        input_text = "What type of workout would you like to do today? (1 or 2): "
+        input_text = "What type of workout would you like to do today (multiple exercises or a single one? -> 1 or 2): "
 
     while choosing_workout_type:
         try:
@@ -40,7 +40,7 @@ def routine_chooser(exercise_list: list[str],
     total_exercises_num: int = len(exercise_list)
     choosing_exercises: bool = True
     workout_list: list[str] = []
-    input_message = "Which exercise would you like to add?" \
+    input_message = "Which exercise would you like to add to your workout?" \
                     if workout_type == WORKOUT_TYPES[0] \
                     else "Which exercise would you like to perform?"
     
@@ -73,5 +73,5 @@ def routine_chooser(exercise_list: list[str],
 
 
 def exercise_guide(quit_value: int):
-    print("Choose a list of exercises you would like to perform",
-          f"when done input {quit_value}.\n")
+    print("\n\tChoose a list of exercises you would like to perform",
+          f"when done input {quit_value}.\n\n")
