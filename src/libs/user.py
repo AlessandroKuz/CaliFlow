@@ -16,7 +16,7 @@ def user_greeting() -> str:
     Return the user type (new or existing)."""
     name: str = get_name(PERSONAL_DATA_FILE_PATH)
     if not name:
-        print(f"Welcome to {APP_NAME}!")
+        print(f"Welcome to {APP_NAME}!", "\N{flexed biceps}")
         name: str = input("What's your name? ")
         set_name(name, PERSONAL_DATA_FILE_PATH)
         print(f"Your account has been setup. Hello {name}!")
@@ -24,7 +24,7 @@ def user_greeting() -> str:
         files_setup()
         return USER_TYPE[0]  # if new user run set up file
     
-    print(f"Welcome back {name}!", end="\n\n")
+    print(f"Welcome back {name}!", "\N{flexed biceps}", end="\n\n")
     # create a wrapper function - if existing user run app file
     # check for files integrity??? - or run the app then check for files integrity
-    return USER_TYPE[1]  
+    return USER_TYPE[1]

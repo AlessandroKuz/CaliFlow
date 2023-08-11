@@ -22,7 +22,7 @@ def workout_chooser(user_type: str) -> str:
             elif workout_type < 1:
                 quit_confirmation: str = input("Do you really wanna quit (y/n)? ").lower()
                 if quit_confirmation in ["y", "yes", "0"]:
-                    print("Bye!")
+                    print("Goodbye!\N{WAVING HAND SIGN}\n")
                     exit()
             else:
                 raise ValueError
@@ -66,7 +66,7 @@ def routine_chooser(exercise_list: list[str],
                 f"press {quit_value} to exit input.\n")
     
     if not workout_list:
-        print("Bye!")
+        print("Goodbye!\N{WAVING HAND SIGN}\n")
         exit()
 
     return workout_list

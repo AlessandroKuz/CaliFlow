@@ -1,4 +1,5 @@
 import time
+from random import choice
 
 from utils.settings import APP_NAME
 from libs.user import user_greeting, files_setup
@@ -20,6 +21,27 @@ def main() -> None:
         routine: list[str] = routine_chooser(exercise_list, workout_type)        
         if routine:
             track_workout(routine)
+            time.sleep(0.5)
+            # TODO: Add a function to print a summary of the workout
+            print(f"Congratulations!", end="") 
+            time.sleep(0.2)
+            print("\N{clapping hands sign}", end="")
+            time.sleep(0.2)
+            print("You've completed your workout!")
+            time.sleep(0.2)
+            print("\N{flexed biceps}", end="\n\n")
+            time.sleep(1)
+
+
+        goodbye_message: list[str] = [
+            "Bye!\N{WAVING HAND SIGN}",
+            "Goodbye!\N{WAVING HAND SIGN}",
+            "See you!\N{WAVING HAND SIGN}",
+            "See you soon!\N{WAVING HAND SIGN}",
+            "See you next time!\N{WAVING HAND SIGN}"
+        ]
+        print(choice(goodbye_message), end="\n\n")
+        print()
 
 if __name__ == "__main__":
     main()
