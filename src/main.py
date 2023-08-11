@@ -8,8 +8,9 @@ from libs.workout_track import track_workout
 
 
 def main() -> None:
-    print(f"{APP_NAME}")
+    print("="*60, f"\t\t\t{APP_NAME}" " v0.1", "="*60, sep="\n", end="\n"*2)
     files_setup()
+    time.sleep(0.8)
     user_type = user_greeting()
     time.sleep(0.5)
 

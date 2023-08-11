@@ -1,3 +1,6 @@
+import time
+
+
 def get_all_exercises() -> list[str]:
     return ["Push-ups",
             "Pull-ups",
@@ -14,6 +17,7 @@ def get_all_exercises() -> list[str]:
 def print_all_exercises(exercise_list: list[str]) -> None:
     print("Excercise list:")
     for index, exercise in enumerate(exercise_list, start=1):
+        time.sleep(0.1)
         print(f"{index}. {exercise}")
     print()
     

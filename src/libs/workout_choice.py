@@ -16,6 +16,7 @@ def workout_chooser(user_type: str) -> str:
     while choosing_workout_type:
         try:
             workout_type = int(input(input_text))
+            print()
             if workout_type in [1, len(WORKOUT_TYPES)]:
                 chosen_workout = WORKOUT_TYPES[workout_type - 1]
                 choosing_workout_type = False
