@@ -6,7 +6,7 @@ def workout_chooser(user_type: str) -> str:
     chosen_workout: str = ""
 
     if user_type == USER_TYPE[0]:
-        print("TUTORIAL: \nYou can either choose all your exercises togheter", 
+        print("TUTORIAL: \nYou can either choose all your exercises together", 
               "or one at a time.", end=" ")
         input_text: str = """Which type of workout would you like to do today?
         (type in 1 to choose multiple exercises all at once | type in 2 to choose only a single exercise): """
